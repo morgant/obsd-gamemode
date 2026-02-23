@@ -22,7 +22,7 @@ gamemoderun.sh command [args]
 
 This is only for 1 concurrent game process, as it will end the performance settings (at least apm(1) settings) when any instance of this script exits.
 
-Running multiple instances of at the same time can lead to settings settings conflicts, especially unexpected incorrect settings being restored. Other utilities which dynamically change the same settings (aside from the supported apmd(8) and obsdfreqd(1)) may also result in settings conflicts.
+Running multiple instances at the same time _can_ lead to settings conflicts and incorrect settings being restored. Other utilities which dynamically adjust the same settings (especially apm(1) and sysctl(1) `hw.perfpolicy`/`hw.setperf`, aside from the supported apmd(8) and obsdfreqd(1)) _will likely_ also result in settings conflicts.
 
 ## Possible future additions
 
