@@ -33,9 +33,9 @@
 #	* setpriority(2) to -4 (cf. FeralInteractive's gamemode)
 #	* if hybrid GPU system (DRI_PRIME)
 # - may need a daemon to use setpriority(2) or renice(8)
+# - add malloc options optimizations? (see malloc(3))
 ###
 
-#set -euv pipefail
 set -eu
 
 USAGE="Usage:\n\t`basename $0` command [args]"
