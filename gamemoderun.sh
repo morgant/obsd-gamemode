@@ -48,8 +48,15 @@ USAGE="Usage:\n\t`basename $0` command [args]"
 ### 1.2 check for super user and privdrop ability
 if [[ "$(id -u)" -eq 0 ]]; then
   have_priv=true
-  [[ -z "$DOAS_USER" ]] \
-    && ( echo "running with super user privileges but not via doas(1), so cannot drop privileges!"; echo $USAGE; exit 1 )
+  if [[ -n "$DOAS_USER" ]]; then
+    unpriv_user="$DOAS_USER"
+  elif [[ -n "$SUDO_USER" ]]; then
+    unpriv_user="$SUDO_USER"
+  else
+    echo "Running as root without doas(1) or sudo(1), so cannot drop privileges!"
+    echo $USAGE
+    exit 1
+  fi
 else
   have_priv=false
 fi
@@ -171,11 +178,12 @@ privdrop() {
   # XXX: the ulimit has to be set in the privdropped shell, but this is
   # duplicated from above and worth DRY-ing
   env $run_env \
-    LOGNAME="$DOAS_USER" \
-    USER="$DOAS_USER" \
-    HOME="$(eval "echo ~${DOAS_USER}")" \
+    LOGNAME="$unpriv_user" \
+    USER="$unpriv_user" \
+    HOME="$(eval "echo ~${unpriv_user}")" \
     DOAS_USER= \
-    su -m "$DOAS_USER" \
+    SUDO_USER= \
+    su -m "$unpriv_user" \
       -s <<EOI
 [[ \$(ulimit -Hd) > \$(ulimit -m) ]] && \
   ulimit -d \$(ulimit -m) || \

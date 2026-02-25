@@ -10,7 +10,7 @@ This takes care of the following settings for the application:
 
 One of the main advantages is that it saves the baseline settings prior to launch and returns to them after program execution is completed.
 
-It also supports running as super user via doas(1) and dropping privileges when launching the game. This allows it to adjust settings that would normally require root _without running the game as root_. **NOTE:** _This feature is a work-in-process, needs further review and validation, and **does come with higher security risks**._
+It also supports running as super user via doas(1) or sudo(1) and dropping privileges when launching the game. This allows it to adjust settings that would normally require root _without running the game as root_. **NOTE:** _This feature is a work-in-process, needs further review and validation, and **does come with higher security risks**._
 
 ## Usage
 
@@ -32,4 +32,3 @@ Running multiple instances at the same time _can_ lead to settings conflicts and
   - handling multiple games/programs being run in gamemode (would keep a list, and remain active until the last one has exited)
     - in the interim, maybe add a lock file in /tmp?
 - Hybrid GPU handling via `DRI_PRIME`, if that works on OpenBSD (untested so far; may need xorg.conf tweaks)
-- sudo(1) support for dropping privileges
